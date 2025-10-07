@@ -13,6 +13,7 @@ export const Home = () => {
     return saved ? JSON.parse(saved) : [];
   });
   const [liked, setLiked] = useState(false);
+  const FAVORITES_LIMIT = 10;
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -37,11 +38,8 @@ export const Home = () => {
   });
 
   const likedVerse = () => {
-    if (favorites.length > 10) {
-      setLiked(false);
-      return;
-    }
     if (!data) return;
+    if (favorites.length >= FAVORITES_LIMIT) return;
     if (liked) {
       setFavorites((prev) =>
         prev.filter(
@@ -84,7 +82,11 @@ export const Home = () => {
                 className="border bg-blue-400 rounded-md shadow px-3 py-2  transition"
               >
                 <span role="img" aria-label="favorite">
-                  {liked ? "❤️" : "🤍"}
+                  {favorites.length >= FAVORITES_LIMIT
+                    ? "🤍"
+                    : liked
+                    ? "❤️"
+                    : "🤍"}
                 </span>
               </button>
             </div>
