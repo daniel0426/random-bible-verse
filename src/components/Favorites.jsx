@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
@@ -12,8 +13,20 @@ export const Favorites = () => {
 
   if (favorites.length === 0) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-[#dbeafe] p-6">
-        <div className="text-xl font-semibold">No favorite verses yet</div>
+      <main className="min-h-screen flex flex-col items-center justify-center gap-6 p-6">
+        <h1 className="text-2xl font-bold">No favorite verses yet</h1>
+        <div className="flex flex-col items-center">
+          <p>
+            Start building your collection by adding verses to your favorites.
+          </p>
+          <p>You can save up to 10 verses that inspire you.</p>
+        </div>
+        <Link
+          to="/"
+          className="bg-blue-400 text-white px-5 py-2 font-semibold rounded-lg shadow-md hover:bg-blue-500 transition"
+        >
+          Go to get some verses
+        </Link>
       </main>
     );
   }
@@ -26,9 +39,10 @@ export const Favorites = () => {
 
   return (
     <main className="min-h-screen p-6">
-      <h1 className="text-2xl font-bold mb-12 text-center">
-        Your Favorite Verses
-      </h1>
+      <div className="mb-12 text-center">
+        <h1 className="text-2xl font-bold mb-4 ">Your Favorite Verses</h1>
+        <h2>{favorites.length} of 10 verses saved</h2>
+      </div>
       <div className="flex flex-wrap gap-6 justify-center">
         {favorites.map((verse, i) => (
           <div

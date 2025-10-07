@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { Favorites } from "./Favorites";
+
 const fetchVerse = async () => {
   const response = await fetch("https://bible-api.com/data/web/random");
   if (!response.ok) throw new Error("Network response was not ok");
@@ -23,17 +23,40 @@ export const Home = () => {
     queryFn: fetchVerse,
   });
 
-  const likedVerse = () => {
-    if (!data) return;
-    setFavorites((prev) =>
-      prev.some(
-        (verse) =>
-          verse.random_verse.chapter === data.random_verse.chapter &&
-          verse.random_verse.verse === data.random_verse.verse
-      )
-        ? prev
-        : [...prev, data]
+  useEffect(() => {
+    if (!data) {
+      setLiked(false);
+      return;
+    }
+    const exists = favorites.some(
+      (verse) =>
+        verse.random_verse.chapter === data.random_verse.chapter &&
+        verse.random_verse.verse === data.random_verse.verse
     );
+    setLiked(exists);
+  });
+
+  const likedVerse = () => {
+    if (favorites.length > 10) {
+      setLiked(false);
+      return;
+    }
+    if (!data) return;
+    if (liked) {
+      setFavorites((prev) =>
+        prev.filter(
+          (verse) =>
+            verse.random_verse.chapter === data.random_verse.chapter &&
+            verse.random_verse.verse === data.random_verse.verse
+        )
+          ? prev
+          : [...prev, data]
+      );
+      setLiked(false);
+    } else {
+      setFavorites((prev) => [...prev, data]);
+      setLiked(true);
+    }
   };
 
   return (
