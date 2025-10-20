@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Nav } from "./components/Nav";
 import { Home } from "./components/Home";
 import { Favorites } from "./components/Favorites";
+import { VerseDetail } from "./components/VerseDetail";
 
 const App = () => {
   return (
@@ -12,6 +13,10 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/favorites" element={<Favorites />} />
+            <Route
+              path="/bible/:bookId/:chapter/:verse"
+              element={<VerseDetail />}
+            />
           </Routes>
         </main>
       </div>

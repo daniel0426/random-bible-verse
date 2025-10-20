@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 const fetchVerse = async () => {
   const response = await fetch("https://bible-api.com/data/web/random");
   if (!response.ok) throw new Error("Network response was not ok");
@@ -71,7 +71,13 @@ export const Home = () => {
                 <div className="font-bold text-lg mb-1">
                   {data.random_verse.book}
                 </div>
-                <div className="text-blue-500 font-semibold">{`${data.random_verse.chapter}:${data.random_verse.verse}`}</div>
+                <div className="text-blue-500 font-semibold">
+                  <Link
+                    to={`/bible/${data.random_verse.book}/${data.random_verse.chapter}/${data.random_verse.verse}`}
+                  >
+                    {`${data.random_verse.chapter}:${data.random_verse.verse}`}
+                  </Link>
+                </div>
                 <div className="text-sm mt-0.5 text-gray-700">
                   {data.translation.name} (
                   {data.translation.identifier.toUpperCase()})
